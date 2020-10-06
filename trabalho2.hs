@@ -43,8 +43,8 @@ quickSort [] = []
 quickSort (pivo:tail) = quickSort (filter (< pivo) tail) ++ [pivo] ++ quickSort (filter (>= pivo) tail)
 
 
---Ex2
--- 1
+--Ex 2
+
 troca :: (Ord a) => ([a], Int) -> ([a], Int)
 troca ([head1], flag) = ([head1], flag)
 troca ((head1 : head2 : tail), flag) =
@@ -64,7 +64,6 @@ bubbleSort1 :: (Ord a) => [a] -> [a]
 bubbleSort1 [] = []
 bubbleSort1 lista = fst (bubbleAux (lista, -1) (length lista))
 
--- 2
 bubbleSort2 :: (Ord a) => [a] -> [a]
 bubbleSort2 [] = []
 bubbleSort2 lista =
@@ -83,7 +82,6 @@ bubbleSort2 lista =
           (haTrocar, ultimoElm) = split listaMod
    in bubble lista
 
--- 3
 bubbleSort3 :: (Ord a) => [a] -> [a]
 bubbleSort3 [] = []
 bubbleSort3 l =
@@ -105,9 +103,6 @@ bubbleSort3 l =
           (parte_a_trocar, ultimo_elem) = split lista_trocada
    in fst (bubble (l, -1))
 
--- Com Contagem
-
---  V 1
 bubbleSort1Cont :: (Ord a) => [a] -> ([a], Int)
 bubbleSort1Cont [] = ([], 0)
 bubbleSort1Cont lista = format (bubleAuxCont (lista, -1, 0) (length lista))
@@ -129,7 +124,6 @@ bubleAuxCont (l, flag, c) n
   | flag == 0 = (l, flag, c)
   | otherwise = bubleAuxCont (trocaCont (l, 0, c)) (n -1)
 
--- V 2
 bubbleSort2Cont :: (Ord a) => [a] -> ([a], Int)
 bubbleSort2Cont [] = ([], 0)
 bubbleSort2Cont lista =
@@ -152,7 +146,6 @@ bubbleSort2Cont lista =
           (proxima_etapa, rec_c) = bubble (parte_a_trocar, c1)
    in bubble (lista, 0)
 
--- V 3
 bubbleSort3Cont :: (Ord a) => [a] -> ([a], Int)
 bubbleSort3Cont [] = ([], 0)
 bubbleSort3Cont l =
@@ -178,15 +171,13 @@ bubbleSort3Cont l =
 
 --Melhor variacao:
 
-
 --As diferencas de tempo de execucao nos diferentes algoritmos bubble sao baixas , entretanto as interações realizadas pela 
 --variação 1 em relação a variação 3 é muito maior, quando comparado a variação 2 a
 --diferença na quantidade de interações é mínima entretanto a variacao 3 ainda é menor. 
 --Assim sendo, conclue-se que a Variação 3 é a melhor em relação as outras.
 
+--Ex 3
 
---Ex3
--- V 1
 selectionSortEx3 :: (Ord a) => [a] -> [a]
 selectionSortEx3 [] = []
 selectionSortEx3 [x] = [x]
@@ -200,7 +191,6 @@ selectionSortEx3 (x : tail) =
           else h : (remove n t)
    in least : selectionSortEx3 (remove least (x : tail))
 
--- V 2
 removeMenor :: (Ord a) => (a, [a]) -> (a, [a])
 removeMenor (m, [x]) = if x < m then (x, [m]) else (m, [x])
 removeMenor (menor, (x : tail))
@@ -216,7 +206,6 @@ selection2 lst =
   let (least, novoUlt) = removeMenor (head lst, tail lst)
    in least : (selection2 novoUlt)
 
--- Com Contagem
 removeMenorCont :: (Ord a) => (a, [a], Int) -> (a, [a], Int)
 removeMenorCont (m, [x], c) = if x < m then (x, [m], c + 1) else (m, [x], c + 1)
 removeMenorCont (menor, (x : tail), c1)
@@ -237,12 +226,12 @@ selection2Cont (x : xs) =
 --Melhor variacao:
 
 --A variação 2 parece possuir um desempenho melhor devido a sua implementação. 
- --achar o menor elemento e remove-ló da lista sem percorrer duas vezes utiliza mais processamento por manter o 
+--achar o menor elemento e remove-ló da lista sem percorrer duas vezes utiliza mais processamento por manter o 
 --valor fora da lista e fazer a sua inserção de volta quando um valor menor que ele for encontrado. Assim,sendo a
 --Variação 1 parece ser a melhor em relação as outras. 
 
---Ex4
--- V 1
+--Ex 4
+
 divide :: (Ord a) => a -> [a] -> ([a], [a])
 divide _ [] = ([], [])
 divide x [e] = if e < x then ([e], []) else ([], [e])
@@ -259,7 +248,6 @@ quickEx4 (piv : tail) =
   let (left, right) = divide piv tail
    in (quickEx4 left) ++ [piv] ++ (quickEx4 right)
 
--- V 2
 quickSort2 :: (Ord a) => [a] -> [a]
 quickSort2 [] = []
 quickSort2 lst =
@@ -277,7 +265,6 @@ quickSort2 lst =
       (left, right) = divide piv (deletaPrimOcorrencia piv lst)
    in (quickSort2 left) ++ [piv] ++ (quickSort2 right)
 
--- Com Contagem
 divideCont :: (Ord a) => a -> [a] -> Int -> ([a], [a], Int)
 divideCont _ [] n = ([], [], n)
 divideCont x [e] n =
@@ -318,7 +305,7 @@ quickSortCount2 lst =
       (left, right, n1) = divideCont piv novoUlt 0
       (sortedL, n_L) = quickSortCount2 left
       (sortedR, n_R) = quickSortCount2 right
-   in (sortedL ++ [piv] ++ sortedR, n1 + n_L + n_R + checks + 3) -- Comps. atuais + comps recursivas + comps do deletaPrimOcorrencia + 3 comps. do foldr1
+   in (sortedL ++ [piv] ++ sortedR, n1 + n_L + n_R + checks + 3)
 
 --Melhor variacao:
 
@@ -327,7 +314,7 @@ quickSortCount2 lst =
 --Dependendo da complexidade da lista a ser ordenada a Variação 1 tem vantagem. 
 --Considerando os testes realizados a Variação 2 parece ser a melhor opcao.
 
--- Ex5
+-- Ex 5
 
 merge :: (Ord a) => [a] -> [a] -> [a]
 merge [] [] = []
@@ -345,7 +332,6 @@ mergeSort lst =
       right = mergeSort (drop ((length lst) `div` 2) lst)
    in merge left right
 
--- Bucket Sort
 sortIntoBuckets :: Int -> Int -> Int -> Int -> [[Int]] -> [[Int]]
 sortIntoBuckets num k m n [bucket] =
   if ((num * k) `div` m) <= n
@@ -372,13 +358,12 @@ bucketSort l1 =
       finalList = foldr1 (++) sortedBuckets
    in finalList
 
-
 --Ex 6
 
 data Exp a
-  = Val a -- um numero
-  | Add (Exp a) (Exp a) -- soma de duas expressoes
-  | Sub (Exp a) (Exp a) --subtração
+  = Val a
+  | Add (Exp a) (Exp a)
+  | Sub (Exp a) (Exp a)
   | Mult (Exp a) (Exp a)
   | Pot (Exp a) (Exp a)
 
@@ -438,97 +423,88 @@ segundosDecorridos (PM hora min)
 
 --Ex 8
 
+data Contato
+  = Nome String
+  | Fone String
+
+type Texto = String
+
 type Data = (Int, Int, Int)
 
-precede :: Data -> Data -> Bool
-precede (d1, m1, y1) (d2, m2, y2)
-  | y1 > y2 = False
-  | y1 == y2 && m1 > m2 = False
-  | y1 == y2 && m1 == m2 && d1 > d2 = False
-  | otherwise = True
-
-data Contato = Nome String | Fone String
-  deriving (Eq, Show)
-
-data Mensagem = Msg Contato String Data Hora String
-  deriving (Show)
+data Mensagem
+  = WhatsApp Contato Texto Hora Data
+  | LinkedIn Contato Texto Hora Data
+  | Facebook Contato Texto Hora Data
 
 --A
 msgRecebidas :: [Mensagem]
 msgRecebidas =
-  [ (Msg (Nome "Fulano") "Mensagem 1" (13, 08, 20) (AM 10 30) "WhatsApp"),
-    (Msg (Fone "123456") "Mensagem 2" (13, 08, 20) (AM 10 31) "WhatsApp"),
-    (Msg (Nome "Fulana") "Mensagem 3" (13, 08, 20) (AM 10 32) "LinkedIn"),
-    (Msg (Nome "Fulana") "Mensagem 4" (13, 08, 20) (AM 10 33) "WhatsApp"),
-    (Msg (Nome "Fulano") "Mensagem 5" (13, 08, 20) (AM 10 37) "Facebook"),
-    (Msg (Nome "Fulana") "Mensagem 6" (13, 08, 20) (AM 11 30) "Facebook"),
-    (Msg (Nome "Fulana") "Mensagem 7" (13, 08, 20) (AM 11 35) "WhatsApp"),
-    (Msg (Fone "123456") "Mensagem 8" (13, 08, 20) (AM 11 37) "LinkedIn"),
-    (Msg (Nome "Fulano") "Mensagem 9" (13, 08, 20) (AM 11 39) "Facebook"),
-    (Msg (Nome "Fulano") "Mensagem 11" (13, 08, 20) (AM 11 42) "Facebook"),
-    (Msg (Nome "Fulana") "Mensagem 11" (13, 08, 20) (AM 11 42) "WhatsApp"),
-    (Msg (Fone "123456") "Mensagem 12" (13, 08, 20) (AM 11 53) "Facebook"),
-    (Msg (Nome "Fulano") "Mensagem 13" (13, 08, 20) (AM 11 53) "WhatsApp"),
-    (Msg (Nome "Fulana") "Mensagem 14" (13, 08, 20) (AM 11 54) "Facebook"),
-    (Msg (Nome "Fulana") "Mensagem 15" (13, 08, 20) (AM 11 54) "WhatsApp"),
-    -- =======(Nome ========)=======================================
-    (Msg (Nome "Fulano") "Mensagem 16" (14, 08, 20) (PM 3 25) "WhatsApp"),
-    (Msg (Nome "Fulano") "Mensagem 17" (14, 08, 20) (PM 3 25) "LinkedIn"),
-    (Msg (Nome "Fulano") "Mensagem 18" (14, 08, 20) (PM 3 24) "Facebook"),
-    (Msg (Nome "Fulana") "Mensagem 19" (14, 08, 20) (PM 3 27) "Facebook"),
-    (Msg (Nome "Fulano") "Mensagem 20" (14, 08, 20) (PM 3 30) "WhatsApp"),
-    (Msg (Nome "Fulano") "Mensagem 21" (14, 08, 20) (PM 3 33) "Facebook"),
-    (Msg (Nome "Fulana") "Mensagem 22" (14, 08, 20) (PM 3 49) "WhatsApp"),
-    (Msg (Fone "123456") "Mensagem 23" (14, 08, 20) (PM 4 50) "LinkedIn"),
-    (Msg (Nome "Fulano") "Mensagem 24" (14, 08, 20) (PM 4 57) "WhatsApp"),
-    (Msg (Nome "Fulana") "Mensagem 25" (14, 08, 20) (PM 4 30) "Facebook"),
-    (Msg (Nome "Fulano") "Mensagem 26" (14, 08, 20) (PM 4 30) "WhatsApp"),
-    (Msg (Fone "123456") "Mensagem 27" (14, 08, 20) (PM 4 30) "LinkedIn"),
-    (Msg (Nome "Fulana") "Mensagem 28" (14, 08, 20) (PM 4 30) "Facebook"),
-    (Msg (Fone "123456") "Mensagem 29" (14, 08, 20) (PM 4 30) "WhatsApp"),
-    (Msg (Nome "Fulano") "Mensagem 30" (14, 08, 20) (PM 4 30) "LinkedIn")
+  [ (WhatsApp (Nome "dalton") "fghfdgh" (AM 10 30) (13, 08, 20)),
+    (LinkedIn (Fone "464563") "dfghdfgh" (AM 10 31) (13, 08, 20)),
+    (Facebook (Nome "faskdflans") "ertyerty" (AM 10 32) (13, 08, 20)),
+    (WhatsApp (Nome "faskdflans") "cvbxcbv" (AM 10 33) (13, 08, 20)),
+    (WhatsApp (Nome "dalton") "vcnmghjm" (AM 10 37) (13, 08, 20)),
+    (Facebook (Nome "faskdflans") "qwerqwer" (AM 11 30) (13, 08, 20)),
+    (WhatsApp (Nome "faskdflans") "sdfasdf" (AM 11 35) (13, 08, 20)),
+    (Facebook (Fone "464563") "gbdfgsdfg" (AM 11 37) (13, 08, 20)),
+    (LinkedIn (Nome "dalton") "ertert" (AM 11 39) (13, 08, 20)),
+    (WhatsApp (Nome "dalton") "yukuiol" (AM 11 42) (13, 08, 20)),
+    (LinkedIn (Nome "faskdflans") "uidfghjgfh" (AM 11 42) (13, 08, 20)),
+    (Facebook (Fone "464563") "tiyuityui" (AM 11 53) (13, 08, 20)),
+    (WhatsApp (Nome "dalton") "hjkghjk" (AM 11 53) (13, 08, 20)),
+    (WhatsApp (Nome "faskdflans") "adfgsdfg" (AM 11 54) (13, 08, 20)),
+    (LinkedIn (Nome "faskdflans") "sdfgeryt" (AM 11 54) (13, 08, 20)),
+    -- ======================================================
+    (Facebook (Nome "dalton") "wertygdfhfg" (PM 3 25) (14, 08, 20)),
+    (LinkedIn (Fone "dalton") "dfghrty" (PM 3 25) (14, 08, 20)),
+    (WhatsApp (Nome "dalton") "retyfghdfg" (PM 3 24) (14, 08, 20)),
+    (LinkedIn (Nome "faskdflans") "nfdghfgh" (PM 3 27) (14, 08, 20)),
+    (LinkedIn (Nome "dalton") "fdghfgn" (PM 3 30) (14, 08, 20)),
+    (WhatsApp (Nome "dalton") "cvbnvcbn" (PM 3 33) (14, 08, 20)),
+    (Facebook (Nome "faskdflans") "rtyerty" (PM 3 49) (14, 08, 20)),
+    (WhatsApp (Fone "464563") "ertygfhdfg" (PM 4 50) (14, 08, 20)),
+    (WhatsApp (Nome "dalton") "sdrtert" (PM 4 57) (14, 08, 20)),
+    (LinkedIn (Nome "faskdflans") "cvbncvbn" (PM 4 30) (14, 08, 20)),
+    (WhatsApp (Nome "dalton") "wertwert" (PM 4 30) (14, 08, 20)),
+    (Facebook (Fone "464563") "fnmdhnjm" (PM 4 30) (14, 08, 20)),
+    (LinkedIn (Nome "faskdflans") "wertyey" (PM 4 30) (14, 08, 20)),
+    (LinkedIn (Fone "464563") "wertyrty" (PM 4 30) (14, 08, 20)),
+    (Facebook (Nome "dalton") "weyrwty" (PM 4 30) (14, 08, 20))
   ]
 
 --B
-ordenarPorContato :: [Mensagem] -> [Mensagem]
-ordenarPorContato [] = []
-ordenarPorContato list = bubble list (length list)
+myBubblesort [] = []
+myBubblesort lista = bolhaOrd lista (length lista)
 
-bubble :: [Mensagem] -> Int -> [Mensagem]
-bubble list 0 = list
-bubble list n = bubble (troca list) (n -1)
+bolhaOrd lista 0 = lista
+bolhaOrd lista n = bolhaOrd (catch lista) (n -1)
 
-troca :: [Mensagem] -> [Mensagem]
-troca [x] = [x]
-troca (msg1 : msg2 : xs)
-  | comparacao msg1 msg2 = msg2 : troca (msg1 : xs)
-  | otherwise = msg1 : troca (msg2 : xs)
-  where
-    comparacao (Msg (Nome _) _ _ _ _) (Msg (Fone _) _ _ _ _) = True -- Ocorre troca, fone vem primeiro
-    comparacao (Msg (Fone _) _ _ _ _) (Msg (Nome _) _ _ _ _) = False -- Não ocorre troca
-    comparacao (Msg (Nome nome1) _ _ _ _) (Msg (Nome nome2) _ _ _ _) = nome1 > nome2
-    comparacao (Msg (Fone nome1) _ _ _ _) (Msg (Fone nome2) _ _ _ _) = nome1 > nome2
-
+catch [t] = [t]
+catch (x:y:zs)
+  | x > y = y : catch (x : zs)
+  | otherwise = x : catch (y : zs)
+  
 --C
-msgProcede :: Mensagem -> Mensagem -> Bool
-msgProcede (Msg _ _ data1 hora1 _) (Msg _ _ data2 hora2 _)
-  | data1 == data2 = (minutosDecorridos hora1) < (minutosDecorridos hora2)
-  | otherwise = precede data1 data2
+msg::Mensagem->Mensagem->Bool
+msg (Msg _ _ d1 h1 _) (Msg _ _ d2 h2 _)
+  | d1 == d2 = (minpass h1) < (minpass h2)
+  | otherwise = precede d1 d2
 
 ordenaDataHora :: [Mensagem] -> [Mensagem]
 ordenaDataHora [] = []
-ordenaDataHora (piv : xs) =
-  (ordenaDataHora [x | x <- xs, (msgProcede x piv) == False])
+ordenaDataHora (piv:xs) =
+  (ordenaDataHora [x | x <- xs, (msg x piv) == False])
     ++ [piv]
-    ++ (ordenaDataHora [x | x <- xs, (msgProcede x piv) == True])
-
+    ++ (ordenaDataHora [x | x <- xs, (msg x piv) == True])
+	
 --D
-ultimasMsgs :: Contato -> [Mensagem] -> [Mensagem]
-ultimasMsgs contact msgs = take 2 [(Msg c m d h a) | (Msg c m d h a) <- msgOrd, c == contact]
+last::Contato->[Mensagem]->[Mensagem]
+last cont msgs = take 2 [(Msg c m d h a) | (Msg c m d h a) <- msgOrd, c == cont]
   where
     msgOrd = ordenaDataHora msgs
+	
+--Ex 9
 
---Ex9
 data ArvBinInt
   = Nulo
   | No Int ArvBinInt ArvBinInt
@@ -545,11 +521,6 @@ arvDados =
         (No 15 Nulo Nulo)
     )
 
-{-- ArvDados é essa
-         4
-      2     10
-          5   15
---}
 --A
 internos :: ArvBinInt -> [Int]
 internos Nulo = []
@@ -559,19 +530,20 @@ internos (No n esq dir) = [n] ++ internos esq ++ internos dir
 --B
 somaNos :: ArvBinInt -> Int
 somaNos Nulo = 0
-somaNos (No n Nulo Nulo) = n --no folha
-somaNos (No n esq dir) = n + somaNos esq + somaNos dir --soma n com a soma dos filhos da dir e da esq
---C
+somaNos (No n Nulo Nulo) = n
+somaNos (No n esq dir) = n + somaNos esq + somaNos dir
 
+--C
 pertenceArv :: Int -> ArvBinInt -> Bool
 pertenceArv _ Nulo = False
 pertenceArv x (No v esq dir) =
-  x == v --compara o valor com o no
-    || if x < v --escolhe pra qual lado da arvore vai
+  x == v
+    || if x < v
       then (pertenceArv x esq)
       else (pertenceArv x dir)
 
 --Ex 10
+
 data ArvBinEA a
   = Vazia
   | Folha a
@@ -580,12 +552,6 @@ data ArvBinEA a
 
 arvEA :: ArvBinEA Float
 arvEA = NoEA ('+', NoEA ('*', Folha 10, Folha 5), Folha 7)
-
-{--
-       +
-     *   7
-   10 5
---}
 
 calculaArv :: (Fractional a, Integral a) => ArvBinEA a -> a
 calculaArv Vazia = 0
